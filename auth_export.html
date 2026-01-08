@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Paneli - Müf.Yard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a237e;
+            --danger: #ef4444;
+            --text-main: #1e293b;
+            --text-secondary: #64748b;
+            --bg-body: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: var(--bg-body);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .auth-card {
+            display: flex;
+            width: 800px;
+            height: 500px;
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+
+        .login-sidebar {
+            width: 40%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #000000 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: white;
+        }
+
+        .login-main {
+            width: 60%;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            font-size: 1.5rem;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-family: inherit;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .links {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="auth-card">
+        <!-- LEFT SIDEBAR -->
+        <div class="login-sidebar">
+            <div style="text-align: center;">
+                <h2>Müf.Yard</h2>
+                <p style="opacity: 0.8;">Dijital Müfettiş Yardımcısı</p>
+            </div>
+        </div>
+
+        <!-- RIGHT CONTENT -->
+        <div class="login-main">
+            <!-- 1. Kayıt / Kurulum Ekranı -->
+            <div id="auth-register" class="auth-screen" style="display:none;">
+                <h3>Kayıt Ol</h3>
+                <p class="text-sm">Hesabınızı oluşturun.</p>
+
+                <div class="form-group">
+                    <label>Ad Soyad</label>
+                    <input type="text" id="reg-fullname" placeholder="Adınız Soyadınız">
+                </div>
+
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="reg-username" placeholder="Kullanıcı Adı">
+                </div>
+
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="reg-password" placeholder="******">
+                </div>
+
+                <div class="form-group">
+                    <label>Güvenlik Sorusu</label>
+                    <input type="text" id="reg-question" placeholder="Örn: İlk evcil hayvanım?">
+                </div>
+
+                <div class="form-group">
+                    <label>Güvenlik Cevabı</label>
+                    <input type="text" id="reg-answer" placeholder="Cevabınız">
+                </div>
+
+                <button class="btn btn-primary" style="width:100%;" onclick="AuthManager.register()">
+                    Kayıt Ol
+                </button>
+
+                <div class="links">
+                    <a onclick="AuthManager.showScreen('login')">Zaten hesabın var mı? Giriş Yap</a>
+                </div>
+            </div>
+
+            <!-- 2. Giriş Ekranı -->
+            <div id="auth-login" class="auth-screen">
+                <h3>Giriş Yap</h3>
+                <p class="text-sm">Devam etmek için giriş yapın.</p>
+
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="login-username">
+                </div>
+
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="login-password">
+                </div>
+
+                <div id="login-error" style="color:var(--danger); font-size:0.85rem; display:none; margin-bottom:1rem;">
+                </div>
+
+                <button class="btn btn-primary" style="width:100%;" onclick="AuthManager.login()">
+                    Giriş Yap
+                </button>
+
+                <div class="links">
+                    <a onclick="AuthManager.showScreen('forgot')">Şifremi Unuttum</a> |
+                    <a onclick="AuthManager.showScreen('register')">Kayıt Ol</a>
+                </div>
+            </div>
+
+            <!-- 3. Şifremi Unuttum Ekranı -->
+            <div id="auth-forgot" class="auth-screen" style="display:none;">
+                <h3>Şifre Yenileme</h3>
+
+                <div id="forgot-step-1">
+                    <p class="text-sm">Kullanıcı adınızı girin.</p>
+                    <div class="form-group">
+                        <label>Kullanıcı Adı</label>
+                        <input type="text" id="forgot-username">
+                    </div>
+                    <button class="btn btn-primary" style="width:100%;" onclick="AuthManager.checkRecoveryUser()">
+                        Devam Et
+                    </button>
+                    <div class="links">
+                        <a onclick="AuthManager.showScreen('login')">Girişe Dön</a>
+                    </div>
+                </div>
+
+                <div id="forgot-step-2" style="display:none;">
+                    <p class="text-sm">Güvenlik sorusunu cevaplayın.</p>
+
+                    <div class="form-group">
+                        <label id="recovery-question-display" style="color:var(--primary-color);"></label>
+                        <input type="text" id="forgot-answer" placeholder="Cevabınız">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Yeni Şifre</label>
+                        <input type="password" id="new-password">
+                    </div>
+
+                    <button class="btn btn-primary" style="width:100%;" onclick="AuthManager.resetPassword()">
+                        Şifreyi Güncelle
+                    </button>
+                    <div class="links">
+                        <a onclick="AuthManager.showScreen('login')">İptal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple Storage Manager for Standalone usage
+        const StorageManager = {
+            get: (key) => {
+                const item = localStorage.getItem(key);
+                return item ? JSON.parse(item) : null;
+            },
+            set: (key, value) => {
+                localStorage.setItem(key, JSON.stringify(value));
+            }
+        };
+
+        const AuthManager = {
+            getUser: () => {
+                return StorageManager.get('app_user');
+            },
+
+            register: () => {
+                const fullname = document.getElementById('reg-fullname').value.trim();
+                const username = document.getElementById('reg-username').value.trim();
+                const password = document.getElementById('reg-password').value;
+                const question = document.getElementById('reg-question').value;
+                const answer = document.getElementById('reg-answer').value.trim();
+
+                if (!fullname || !username || !password || !answer) {
+                    alert('Lütfen tüm alanları doldurunuz.');
+                    return;
+                }
+
+                const user = {
+                    fullname,
+                    username,
+                    password,
+                    question,
+                    answer: answer.toLowerCase()
+                };
+
+                StorageManager.set('app_user', user);
+                alert('Kayıt başarılı! Giriş yapabilirsiniz.');
+                AuthManager.showScreen('login');
+            },
+
+            login: () => {
+                const username = document.getElementById('login-username').value.trim();
+                const password = document.getElementById('login-password').value;
+                const errorMsg = document.getElementById('login-error');
+
+                const user = AuthManager.getUser();
+
+                if (!user) {
+                    alert('Kullanıcı bulunamadı. Lütfen kayıt olun.');
+                    return;
+                }
+
+                if (user.username === username && user.password === password) {
+                    errorMsg.style.display = 'none';
+                    alert('Giriş Başarılı! Hoşgeldin ' + user.fullname);
+                    // Redirect or load main app content here
+                } else {
+                    errorMsg.style.display = 'block';
+                    errorMsg.textContent = 'Kullanıcı adı veya şifre hatalı.';
+                }
+            },
+
+            showScreen: (screenName) => {
+                ['login', 'register', 'forgot'].forEach(s => {
+                    document.getElementById(`auth-${s}`).style.display = 'none';
+                });
+                document.getElementById(`auth-${screenName}`).style.display = 'block';
+
+                if (screenName === 'login') {
+                    const err = document.getElementById('login-error');
+                    if (err) err.style.display = 'none';
+                }
+            },
+
+            checkRecoveryUser: () => {
+                const username = document.getElementById('forgot-username').value.trim();
+                const user = AuthManager.getUser();
+
+                if (user && user.username === username) {
+                    document.getElementById('forgot-step-1').style.display = 'none';
+                    document.getElementById('forgot-step-2').style.display = 'block';
+                    document.getElementById('recovery-question-display').textContent = user.question || 'Güvenlik Sorusu';
+                } else {
+                    alert('Kullanıcı bulunamadı.');
+                }
+            },
+
+            resetPassword: () => {
+                const answer = document.getElementById('forgot-answer').value.trim().toLowerCase();
+                const newPass = document.getElementById('new-password').value;
+                const user = AuthManager.getUser();
+
+                if (user.answer === answer) {
+                    user.password = newPass;
+                    StorageManager.set('app_user', user);
+                    alert('Şifre güncellendi.');
+                    location.reload();
+                } else {
+                    alert('Cevap hatalı!');
+                }
+            }
+        };
+    </script>
+</body>
+
+</html>
