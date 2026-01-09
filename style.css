@@ -964,7 +964,7 @@ h1 {
 }
 
 /* MOBILE RESPONSIVE STYLES */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
 
     /* 1. Layout & Sidebar */
     .app-container {
@@ -1081,5 +1081,16 @@ h1 {
     .login-main {
         width: 100% !important;
         padding: 1.5rem !important;
+    }
+
+    /* 7. Assistant Page Buttons */
+    .assistant-card .card-body>div[style*="display: flex"] {
+        flex-wrap: wrap !important;
+    }
+
+    .assistant-card .card-body>div[style*="display: flex"]>button {
+        flex: 1 1 45% !important;
+        /* Make buttons 2 per row */
+        margin-bottom: 5px;
     }
 }
