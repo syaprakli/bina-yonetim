@@ -728,7 +728,7 @@ const app = {
                             </div>
 
                             <!-- Bottom Actions Row -->
-                            <div style="display: flex; gap: 10px;">
+                            <div class="assistant-actions" style="display: flex; gap: 10px;">
                                 <button class="btn btn-secondary" style="flex:1; background-color: var(--warning-color); color:white; border:none;" onclick="app.handlers.saveAnnouncement()">
                                     <i class="fa-solid fa-floppy-disk"></i> Taslak Kaydet
                                 </button>
