@@ -1023,10 +1023,10 @@ h1 {
     }
 
     /* 3. Action Buttons (Grid Layout for Touch) */
+    /* 3. Action Buttons (Column Layout for fail-safe) */
     .actions {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        /* 2 columns */
+        display: flex;
+        flex-direction: column;
         gap: 10px;
         width: 100%;
     }
@@ -1035,7 +1035,7 @@ h1 {
         width: 100%;
         justify-content: center;
         padding: 12px;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
     }
 
     /* 4. Cards & Charts */
@@ -1084,13 +1084,14 @@ h1 {
     }
 
     /* 7. Assistant Page Buttons */
-    .assistant-card .card-body>div[style*="display: flex"] {
-        flex-wrap: wrap !important;
+    /* 7. Assistant Page Buttons */
+    .assistant-actions {
+        flex-direction: column !important;
     }
 
-    .assistant-card .card-body>div[style*="display: flex"]>button {
-        flex: 1 1 45% !important;
-        /* Make buttons 2 per row */
+    .assistant-actions button {
+        width: 100% !important;
+        flex: none !important;
         margin-bottom: 5px;
     }
 }
