@@ -123,11 +123,9 @@ const app = {
                 if (t.type === 'income') {
                     // Payment received - increases balance (positive)
                     balance += amt;
-                } else if (t.type === 'debt') {
-                    // Personal Debt (Kişisel Borç) -> Immediate effect
-                    balance -= amt;
-                } else if (t.isDebt || (t.type === 'expense' && t.category === 'Aidat')) {
+                } else if ((t.type === 'debt' || t.type === 'expense' || t.isDebt) && t.category === 'Aidat') {
                     // Regular Dues (Aidat) -> Grace Period: Effective 1st of next month
+                    // User Request: "takip eden ayın 1'inden itibaren borçlu göster"
                     const tDate = new Date(t.date);
                     const effectiveDate = new Date(tDate.getFullYear(), tDate.getMonth() + 1, 1);
                     const effectiveDateStr = effectiveDate.toISOString().split('T')[0];
@@ -135,6 +133,9 @@ const app = {
                     if (todayStr >= effectiveDateStr) {
                         balance -= amt;
                     }
+                } else if (t.type === 'debt') {
+                    // Personal Debt (Kişisel Borç) or other Immediate Debts -> Immediate effect
+                    balance -= amt;
                 }
             });
 
