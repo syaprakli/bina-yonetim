@@ -349,6 +349,17 @@ const app = {
 
             if (t.type === 'income') {
                 r.balance += parseFloat(t.amount);
+            } else if ((t.type === 'debt' || t.type === 'expense' || t.isDebt) && t.category === 'Aidat') {
+                // Check Effective Date
+                const now = new Date();
+                const todayStr = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString().split('T')[0];
+                const tDate = new Date(t.date);
+                const effectiveDate = new Date(tDate.getFullYear(), tDate.getMonth() + 1, 1);
+                const effectiveDateStr = effectiveDate.toISOString().split('T')[0];
+
+                if (todayStr >= effectiveDateStr) {
+                    r.balance -= parseFloat(t.amount);
+                }
             } else if (t.type === 'debt' || t.isDebt === true) {
                 // Debt reduces balance (makes it negative)
                 r.balance -= parseFloat(t.amount);
@@ -791,7 +802,7 @@ const app = {
                                 <th>Daire Sahibi</th>
                                 <th>Telefon</th>
                                 <th>Bakiye</th>
-                                <th>İşlemler</th>
+                                <th style="text-align: center;">İşlemler</th>
                             </tr>
                         </thead>
                         <tbody>`;
@@ -814,16 +825,18 @@ const app = {
                                 ${res.type === 'tenant' && res.ownerPhone ? `<small style="color:var(--text-muted); font-size:0.75rem;">(Ev Sahibi: ${res.ownerPhone})</small>` : ''}
                             </td>
                             <td class="${balanceClass}"><strong>${app.formatCurrency(balance)}</strong></td>
-                            <td>
-                                <button class="btn-icon" style="color:#25D366;" onclick="app.handlers.sendWhatsappReminder(${res.id})" title="WhatsApp Hatırlatma">
-                                    <i class="fa-brands fa-whatsapp"></i>
-                                </button>
-                                <button class="btn-icon" onclick="app.handlers.editResident(${res.id})" title="Düzenle">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                                <button class="btn-icon delete" onclick="app.handlers.deleteResident(${res.id})" title="Sil">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                            <td style="min-width: 120px;">
+                                <div style="display:flex; gap:5px; justify-content:center;">
+                                    <button class="btn-icon" style="color:#25D366;" onclick="app.handlers.sendWhatsappReminder(${res.id})" title="WhatsApp Hatırlatma">
+                                        <i class="fa-brands fa-whatsapp"></i>
+                                    </button>
+                                    <button class="btn-icon" onclick="app.handlers.editResident(${res.id})" title="Düzenle">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button class="btn-icon delete" onclick="app.handlers.deleteResident(${res.id})" title="Sil">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     `;
